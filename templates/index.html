@@ -8,6 +8,11 @@
 <link rel="stylesheet" type="text/css" href="../static/css/bootstrap/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="../static/dist/elastislide/css/elastislide.css">
 <link rel="stylesheet" type="text/css" href="../static/css/custom.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/waitMe/waitMe.min.css"/>
+
+<link rel="stylesheet" type="text/css" href="../static/dist/notificationFx/css/normalize.css"/>
+<link rel="stylesheet" type="text/css" href="../static/dist/notificationFx/css/ns-default.css"/>
+<link rel="stylesheet" type="text/css" href="../static/dist/notificationFx/css/ns-style-growl.css"/>
 
 <style type="text/css">
 	body{
@@ -68,7 +73,8 @@
 						</ul>
 					</div>
 					<div class="col-md-8 col-md-offset-2 margin-box">
-						<button class="btn btn-primary btn-lg col-md-offset-5" ng-click="build()">生成图片</button>
+						<a class="btn btn-success btn-lg" style="float:right;margin-left:20px;" ng-show="imgUrl" download="{{imgUrl}}" href="{{imgName}}">下载图片</a>
+						<button class="btn btn-primary btn-lg" style="float:right" buildbtn>生成图片</button>
 					</div>
 		    	</div>
 			</form>
@@ -80,6 +86,10 @@
 
 <script type="text/javascript" src="../static/js/jquery/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="../static/js/angular/angular.min.js"></script>
+
+<script type="text/javascript" src="../static/dist/notificationFx/js/modernizr.custom.js"></script>
+<script type="text/javascript" src="../static/dist/notificationFx/js/classie.js"></script>
+<script type="text/javascript" src="../static/dist/notificationFx/js/notificationFx.js"></script>
 
 <script type="text/javascript" src="../static/dist/dropify/js/dropify.min.js"></script>
 <script type="text/javascript" src="../static/js/waitMe/waitMe.min.js"></script>

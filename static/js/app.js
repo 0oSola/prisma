@@ -1,26 +1,11 @@
 (function(){
+	var data = '{"imgUrl":"http://123.jpg","imgName":"123.jpg"}'
 	var prismaApp = angular.module("prismaApp",[]);
 
 	prismaApp.controller("buildController",function($scope,$http){
-			
-		$scope.build = function(){
-			var formData = new FormData($("#frmUpload")[0]);
-			$http({
-				url:"/test",
-				method:"POST",
-				data:formData,
-				transformRequest: angular.identity,
-				headers:{
-					"Content-Type": function () {
-                        return undefined;
-                    }
-				},
-				success:function(status,response){
-
-				},error:function(){
-
-				}
-			})
+		
+		$scope.form = {
+			"type":""
 		}
 	})
 
@@ -57,8 +42,78 @@
 				$element.find(".style-item").on("click",function(){
 					$(".style-item").removeClass("select");
 					$(this).addClass("select");
-					$scope.form.type = $(this).attr("data-type");
+					var type = $(this).attr("data-type");
+					$scope.$apply(function(){
+						$scope.form.type = type;
+					});
+				})
+			}
+		}
+	})
+
+	prismaApp.directive("buildbtn",function($http){
+		return {
+			restrict:"ECMA",
+			link:function($scope,$element,$attrs){
+				$element.bind("click",function(){
+					debugger;
+					var filepath=$("input[name='imgFile']").val();
+					var extStart=filepath.lastIndexOf(".");
+					var ext=filepath.substring(extStart,filepath.length).toUpperCase();
+					  
+					if(ext!=".JPG"&&ext!=".JPEG"&&ext!=".PNG"&&ext!=".GIF"){
+						var notification = new NotificationFx({
+							message : '<p>上传文件限于jpg,jpeg,png,gif格式</p>',
+							layout : 'growl',
+							effect : 'genie',
+							type : 'notice', // notice, warning or error
+							ttl : 1000,
+							onClose : function() {
+							}
+						});
+
+						notification.show();
+						return false;
+					}
+					  
+					$('body').waitMe({
+						effect: "bounce",
+						text: '正在上传...',
+						bg: 'rgba(0,0,0,0.7)',
+						color:'#000',
+						sizeW:'',
+						sizeH:'',
+						source: 'img.svg'
+					});
+
+
+					//console.log($scope);
+					var formData = new FormData($("#frmUpload")[0]);
+					$http({
+						url:"",
+						method:"POST",
+						data:formData,
+						transformRequest: angular.identity,
+						headers:{
+							"Content-Type": function () {
+		                        return undefined;
+		                    }
+						},
+						success:function(data){
+							$scope.imgUrl = angular.fromJson(data).imgUrl;
+							$scope.imgName = angular.fromJson(data).imgName;
+							$scope.$apply();
+							setTimeout("$('body').waitMe('hide')",1000);
+						},error:function(){
+
+						}
+					})
+
+					$scope.imgUrl = angular.fromJson(data).imgUrl;
+					$scope.imgName = angular.fromJson(data).imgName;
 					$scope.$apply();
+
+					setTimeout("$('body').waitMe('hide')",1000);
 				})
 			}
 		}
