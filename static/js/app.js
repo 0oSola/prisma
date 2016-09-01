@@ -56,7 +56,6 @@
 			restrict:"ECMA",
 			link:function($scope,$element,$attrs){
 				$element.bind("click",function(){
-					debugger;
 					var filepath=$("input[name='imgFile']").val();
 					var extStart=filepath.lastIndexOf(".");
 					var ext=filepath.substring(extStart,filepath.length).toUpperCase();
@@ -75,10 +74,27 @@
 						notification.show();
 						return false;
 					}
+
+
+					var filetype = $("input[name='imgType']").val();
+					if(filetype==""||filetype==null){
+						var notification = new NotificationFx({
+							message : '<p>选择生成的风格</p>',
+							layout : 'growl',
+							effect : 'genie',
+							type : 'notice', // notice, warning or error
+							ttl : 1000,
+							onClose : function() {
+							}
+						});
+
+						notification.show();
+						return false;
+					}
 					  
 					$('body').waitMe({
 						effect: "bounce",
-						text: '正在上传...',
+						text: '正在上传,并生成图片中...',
 						bg: 'rgba(0,0,0,0.7)',
 						color:'#000',
 						sizeW:'',
@@ -90,7 +106,7 @@
 					//console.log($scope);
 					var formData = new FormData($("#frmUpload")[0]);
 					$http({
-						url:"",
+						url:"/buildPic",
 						method:"POST",
 						data:formData,
 						transformRequest: angular.identity,
